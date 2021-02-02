@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="description" content="个人博客">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    文件操作 |
+    
+    LYC&#39;s BLOG</title>
+  
+  <link rel="shortcut icon" href="/L.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="LYC's BLOG" type="application/atom+xml">
+</head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-文件操作" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  文件操作
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/01/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2020-08-01T07:45:03.000Z" itemprop="datePublished">2020-08-01</time>
+</a>
+      
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><p>关于在Python中对文件相关操作的记录</p>
+<a id="more"></a>
+
+<h1 id="文件的打开"><a href="#文件的打开" class="headerlink" title="文件的打开"></a>文件的打开</h1><p>在python中可以使用open函数打开一个已经存在的文件，或者创建一个新文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file = open(<span class="string">&#x27;../a.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问模式"><a href="#访问模式" class="headerlink" title="访问模式"></a>访问模式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(file, mode=<span class="string">&#x27;r&#x27;</span>, buffering=<span class="literal">None</span>, encoding=<span class="literal">None</span>, errors=<span class="literal">None</span>, newline=<span class="literal">None</span>, closefd=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">访问模式</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="left">只读——已存在则从头开始——不存在则报错——读完不重新open文件指针不会复原<br />这是默认模式。**</td>
+</tr>
+<tr>
+<td align="center">w</td>
+<td align="left">只写——已存在则覆写——不存在则创建新文件——同一次文件指针不会复原（等同于追加）——重新open就会覆写</td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="left">追加——已存在则追加原内容之后——不存在则创建新文件——只写不读</td>
+</tr>
+<tr>
+<td align="center">r+</td>
+<td align="left">读写——文件指针默认在文件开始位置，写入会覆盖相同长度的原内容——操作之后文件指针不会复原</td>
+</tr>
+<tr>
+<td align="center">w+</td>
+<td align="left">读写——文件已存在则将其覆盖——文件不存在则创建新文件——每次open都是清空原内容，但是写入操作之后文件指针在文件末，此时读会为空，需要重置指针</td>
+</tr>
+<tr>
+<td align="center">a+</td>
+<td align="left">追加方式读写——文件已存在，文件指针将会放在文件的结尾，可以直接追加，所以读为空——文件不存在，创建新文件用于读写</td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="left">二进制格式操作</td>
+</tr>
+<tr>
+<td align="center">t</td>
+<td align="left">文本模式</td>
+</tr>
+<tr>
+<td align="center">U</td>
+<td align="left">通用换行符，将所有的\n、\r 都替换成 \n<br />（universal newline mode (deprecated)）</td>
+</tr>
+<tr>
+<td align="center">buffering</td>
+<td align="left">为了减少I/O操作，使用缓冲区，达到要求的数据量才进行系统调用<br />全缓冲：buffering=1024        设置大于1的整数表示缓冲区大小<br />行缓冲：buffering=1        按行缓冲，适用于文本内容<br />无缓冲：buffering=0        来一个处理一个，只适用于二进制模式</td>
+</tr>
+<tr>
+<td align="center">encoding</td>
+<td align="left">返回数据采用何种编码方式进行解码——‘utf-8’、‘gbk’</td>
+</tr>
+<tr>
+<td align="center">errors</td>
+<td align="left">取值一般有strict，ignore，当取strict的时候，字符编码出现问题的时候，会报错，当取ignore的时候，编码出现问题，程序会忽略而过，继续执行下面的程序</td>
+</tr>
+<tr>
+<td align="center">newline</td>
+<td align="left">可以取的值有None, \n, \r, ”, ‘\r\n’，用于区分换行符，但是这个参数只对文本模式有效</td>
+</tr>
+<tr>
+<td align="center">文件指针操作</td>
+<td align="left">file.tell    查看指针当前位置<br />file.seek(0)    将指针移到文件开头</td>
+</tr>
+</tbody></table>
+<h1 id="文件关闭"><a href="#文件关闭" class="headerlink" title="文件关闭"></a>文件关闭</h1><p>文件打开之后一定要关闭</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<h1 id="文件的读写"><a href="#文件的读写" class="headerlink" title="文件的读写"></a>文件的读写</h1><h2 id="写数据"><a href="#写数据" class="headerlink" title="写数据"></a>写数据</h2><p>使用 write() 向文件写数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file.open(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">file.write(<span class="string">&#x27;hello world, i am here!\n&#x27;</span> * <span class="number">5</span>)</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="读数据"><a href="#读数据" class="headerlink" title="读数据"></a>读数据</h2><p>使用read(num)可以从文件中读取数据，num表示读取的数据长度，单位是字节。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">one_k = file.read(<span class="number">1024</span>)</span><br><span class="line">print(one_k)</span><br><span class="line"><span class="comment"># 同一次open内不会还原文件指针位置</span></span><br><span class="line"><span class="comment"># 会读取接下来的所有内容</span></span><br><span class="line">last = file.read()</span><br><span class="line">print(last)</span><br></pre></td></tr></table></figure>
+
+<p>使用readlines() 可以按照行的方式将整个文件的内容进行一次性读取，返回一个列表，每一行为列表的一个元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">content = f.readlines()</span><br><span class="line">print(type(content))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> temp <span class="keyword">in</span> content:</span><br><span class="line">    print(temp)</span><br></pre></td></tr></table></figure>
+
+<h2 id="重置指针位置"><a href="#重置指针位置" class="headerlink" title="重置指针位置"></a>重置指针位置</h2><p>seek(offset, whence) 方法重置文件指针的位置</p>
+<ul>
+<li>offset：表示偏移量</li>
+<li>whence：表示指针移动位置，只能传入0、1、2<ul>
+<li>0表示从文件头开始</li>
+<li>1表示从当前位置开始，配合偏移量使用</li>
+<li>2表示从文件末尾开始</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f.seek(<span class="number">2</span>,<span class="number">0</span>)   <span class="comment"># 从文件的开头开始，跳过两个字节</span></span><br><span class="line">print(f.read())</span><br><span class="line"></span><br><span class="line">f.seek(<span class="number">1</span>,<span class="number">1</span>) <span class="comment"># 从当前位置开始，跳过一个字节</span></span><br><span class="line">print(f.read())</span><br><span class="line"></span><br><span class="line">f.seek(<span class="number">-4</span>,<span class="number">2</span>) <span class="comment"># 从文件末尾开始，往前跳过四个字节</span></span><br><span class="line">print(f.read())</span><br></pre></td></tr></table></figure>
+
+<h1 id="CSV文件"><a href="#CSV文件" class="headerlink" title="CSV文件"></a>CSV文件</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 先以写入模式打开一个csv文件</span></span><br><span class="line">csvfile = open(<span class="string">&#x27;tst.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># csv的writer方法将文件对象变成CSVWriter对象</span></span><br><span class="line">csvwriter = csv.writer(file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用CSVWriter的writerow方法可以按行写入数据</span></span><br><span class="line">csvwrite.writerow([<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;age&#x27;</span>, <span class="string">&#x27;score&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># writerows方法可以一次性写入多行</span></span><br><span class="line">csvwriter.writerows([<span class="string">&#x27;zhangsan&#x27;</span>, <span class="string">&#x27;18&#x27;</span>, <span class="string">&#x27;98&#x27;</span>], [<span class="string">&#x27;lisi&#x27;</span>, <span class="string">&#x27;19&#x27;</span>, <span class="string">&#x27;99&#x27;</span>], [<span class="string">&#x27;wangwu&#x27;</span>, <span class="string">&#x27;18&#x27;</span>, <span class="string">&#x27;97&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用csv模块的reader方法，得到的结果是一个可迭代对象</span></span><br><span class="line">reader = csv.reader(file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对结果进行遍历，获取到结果里的每一行数据</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> reader:</span><br><span class="line">    print(row)</span><br><span class="line"></span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<h1 id="数据写入内存"><a href="#数据写入内存" class="headerlink" title="数据写入内存"></a>数据写入内存</h1><h2 id="StringIO"><a href="#StringIO" class="headerlink" title="StringIO"></a>StringIO</h2><p>StringIO可以将字符串写入到内存中，像操作文件一下操作字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> StringIO</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个StringIO对象</span></span><br><span class="line">f = StringIO()</span><br><span class="line"><span class="comment"># 可以像操作文件一下，将字符串写入到内存中</span></span><br><span class="line">f.write(<span class="string">&#x27;hello\r\n&#x27;</span>)</span><br><span class="line">f.write(<span class="string">&#x27;good&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用文件的 readline和readlines方法，无法读取到数据</span></span><br><span class="line"><span class="comment"># print(f.readline())</span></span><br><span class="line"><span class="comment"># print(f.readlines())</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要调用getvalue()方法才能获取到写入到内存中的数据</span></span><br><span class="line">print(f.getvalue())</span><br><span class="line"></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="BytesIO"><a href="#BytesIO" class="headerlink" title="BytesIO"></a>BytesIO</h2><p>如果想要以二进制的形式写入数据，可以使用BytesIO类，它的用法和StringIO相似，只不过在调用write方法写入时，<strong>需要传入二进制数据</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"></span><br><span class="line">f = BytesIO()</span><br><span class="line">f.write(<span class="string">&#x27;你好\r\n&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">f.write(<span class="string">&#x27;中国&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">print(f.getvalue())</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<h1 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h1><p>将对象序列化之后才能写入文件，也可以将文件中的字节（字符）反序列化为python对象（列表、字典、元组。。。）</p>
+<h2 id="JSON模块序列化"><a href="#JSON模块序列化" class="headerlink" title="JSON模块序列化"></a>JSON模块序列化</h2><p>JSON(JavaScriptObjectNotation, JS对象简谱)是一种轻量级的数据交换格式，它基于 ECMAScript 的一个子集，采用完全独立于编程语言的<strong>文本格式</strong>来存储和表示数据。<strong>JSON的本质是字符串</strong>！</p>
+<h3 id="dump-dumps方法实现序列化"><a href="#dump-dumps方法实现序列化" class="headerlink" title="dump/dumps方法实现序列化"></a>dump/dumps方法实现序列化</h3><p>dumps方法可以将对象转化为字符串，并不具备写入文件的功能</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">file = open(<span class="string">&#x27;text.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"></span><br><span class="line">names = [<span class="string">&#x27;zhangsan&#x27;</span>, <span class="string">&#x27;lisi&#x27;</span>, <span class="string">&#x27;wangwu&#x27;</span>, <span class="string">&#x27;merry&#x27;</span>, <span class="string">&#x27;jack&#x27;</span>]</span><br><span class="line"><span class="comment"># file.write(names)    出错，不能直接将列表写入文件中</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用json的dumps方法，传入对象，返回json字符串</span></span><br><span class="line">json_result = json.dumps(names)</span><br><span class="line"></span><br><span class="line">print(type(json_result))    <span class="comment"># &lt;class &#x27;str&#x27;&gt;</span></span><br><span class="line"></span><br><span class="line">file.write(json_result)</span><br><span class="line"></span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<p>dump方法可以在将对象转换成为字符串的同时，指定一个文件对象，把转换后的字符串写入到这个文件里。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">file = open(<span class="string">&#x27;names.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">names = [<span class="string">&#x27;zhangsan&#x27;</span>, <span class="string">&#x27;lisi&#x27;</span>, <span class="string">&#x27;wangwu&#x27;</span>, <span class="string">&#x27;jerry&#x27;</span>, <span class="string">&#x27;henry&#x27;</span>, <span class="string">&#x27;merry&#x27;</span>, <span class="string">&#x27;chris&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># dump方法可以接收一个文件参数，在将对象转换成为字符串的同时写入到文件里</span></span><br><span class="line">json.dump(names, file)</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果是一个空对象，调用dumps方法转换成为一个JSON对象，得到的结果是null(JS里的空对象)</p>
+<h3 id="load-loads方法实现反序列化"><a href="#load-loads方法实现反序列化" class="headerlink" title="load/loads方法实现反序列化"></a>load/loads方法实现反序列化</h3><p>loads方法需要一个字符串参数，用来将一个字符串加载成为Python对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用loads方法，传入一个字符串，可以将这个字符串加载成为Python对象</span></span><br><span class="line">result = json.loads(<span class="string">&#x27;[&quot;zhangsan&quot;, &quot;lisi&quot;, &quot;wangwu&quot;, &quot;jerry&quot;, &quot;henry&quot;, &quot;merry&quot;, &quot;chris&quot;]&#x27;</span>)</span><br><span class="line">print(type(result))  <span class="comment"># &lt;class &#x27;list&#x27;&gt;</span></span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+
+<p>load方法可以传入一个文件对象，用来将一个文件对象里的数据加载成为Python对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以可读方式打开一个文件</span></span><br><span class="line">file = open(<span class="string">&#x27;names.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用load方法，将文件里的内容加载成为一个Python对象</span></span><br><span class="line">result = json.load(file)</span><br><span class="line"></span><br><span class="line">print(result)</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="pickle模块序列化"><a href="#pickle模块序列化" class="headerlink" title="pickle模块序列化"></a>pickle模块序列化</h2><p>和json模块类似，pickle模块也有dump和dumps方法可以对数据进行序列化，同时也有load和loads方法进行反序列化。区别在于，json模块是将对象转换成为字符串，而pickle模块是将对象转换成为二进制。</p>
+<p>pickle模块里方法的使用和json里方法的使用大致相同，需要注意的是，<strong>pickle是将对象转换成为二进制，所以，如果想要把内容写入到文件里，这个文件必须要以二进制的形式打开。</strong></p>
+<h2 id="json和pickle的区别"><a href="#json和pickle的区别" class="headerlink" title="json和pickle的区别"></a>json和pickle的区别</h2><ul>
+<li><p>json模块:</p>
+<ul>
+<li>将对象转化为字符串，而字符串在任何系统和编程语言中都是可以识别的；</li>
+<li>json的用处就是跨平台信息传输；</li>
+<li>python对象与json字符串对应关系：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>JSON</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dict</td>
+<td>object</td>
+</tr>
+<tr>
+<td>list,tuple</td>
+<td>array</td>
+</tr>
+<tr>
+<td>str</td>
+<td>string</td>
+</tr>
+<tr>
+<td>int,float</td>
+<td>number</td>
+</tr>
+<tr>
+<td>True</td>
+<td>true</td>
+</tr>
+<tr>
+<td>False</td>
+<td>false</td>
+</tr>
+<tr>
+<td>None</td>
+<td>null</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>如果是一个自定义对象，默认无法装换成为json字符串，需要手动指定JSONEncoder.</p>
+</li>
+<li><p>如果是将一个json串重新转换成为对象，这个对象里的方法就无法使用了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEncode</span>(<span class="params">json.JSONEncoder</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span>(<span class="params">self, o</span>):</span></span><br><span class="line">        <span class="comment"># return &#123;&quot;name&quot;:o.name,&quot;age&quot;:o.age&#125;</span></span><br><span class="line">        <span class="keyword">return</span> o.__dict__</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name, age</span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">eat</span>(<span class="params">self</span>):</span></span><br><span class="line">          print(self.name+<span class="string">&#x27;正在吃东西&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p1 = Person(<span class="string">&#x27;zhangsan&#x27;</span>, <span class="number">18</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义对象想要转换成为json字符串，需要给这个自定义对象指定JSONEncoder</span></span><br><span class="line">result = json.dumps(p1, cls=MyEncode)</span><br><span class="line">print(result)  <span class="comment"># &#123;&quot;name&quot;: &quot;zhangsan&quot;, &quot;age&quot;: 18&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用loads方法将对象加载成为一个对象以后，得到的结果是一个字典</span></span><br><span class="line">p = json.loads(result)</span><br><span class="line">print(type(p))</span><br><span class="line">Copy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pickle模块：</p>
+<ul>
+<li>pickle序列化是将对象按照一定的规则转换成为二进制保存，它不能跨平台传递数据。</li>
+<li>pickle的序列化会将对象的所有数据都保存。</li>
+<li>pickle适合对需要使用的自定义对象进行序列化处理</li>
+<li>深拷贝也可以使用pickle实现</li>
+</ul>
+</li>
+</ul>
+<h1 id="使用with关键字"><a href="#使用with关键字" class="headerlink" title="使用with关键字"></a>使用with关键字</h1><p>with语句实质上是一个上下文管理器，with语句后的对象都会有<code>__enter__()</code>和<code>__exit__()</code>方法。在进入到上下文时，会自动调用<code>__enter__()</code>方法，程序正常执行完成，或者出现异常中断的时候，都会调用<code>__exit__()</code>方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">m3</span>():</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&quot;Python之禅&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>open 方法的返回值赋值给变量 f，当离开 with 代码块的时候，系统会自动调用 f.close() 方法。</p>
+<h2 id="上下文管理器"><a href="#上下文管理器" class="headerlink" title="上下文管理器"></a>上下文管理器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyContext</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name, age</span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;调用了enter方法&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="number">1</span> / <span class="number">0</span></span><br><span class="line">        print(self.name + <span class="string">&#x27;调用了test方法&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span>(<span class="params">self, exc_type, exc_val, exc_tb</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;调用了exit方法&#x27;</span>)</span><br><span class="line">        print(exc_type, exc_val, exc_tb)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> MyContext(<span class="string">&#x27;zhangsan&#x27;</span>, <span class="number">18</span>) <span class="keyword">as</span> context:</span><br><span class="line">    context.test()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.youyouei.com/2020/08/01/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" data-id="ckknh5t9t00033ntyako23dva" class="article-share-link">
+        Share
+      </a>
+      
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/02/02/hello-world/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      Hello World
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2020/07/14/MySQL%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">MySQL相关总结</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '0e013cd3765bf2f7e821',
+    clientSecret: '728324029d9e5fe2b1e7ca29cc41e405d05842f4',
+    repo: 'MyBlog',
+    owner: 'll-96',
+    admin: ['ll-96'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>LYC&#39;s BLOG &copy; 2021</li>
+      
+        <li>蜀ICP备20018636号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a target="_blank" rel="noopener" href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo.svg" alt="LYC&#39;s BLOG"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">相册</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/type">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/links">links</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
