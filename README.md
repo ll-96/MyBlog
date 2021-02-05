@@ -1,2 +1,0 @@
-# MyBlog
-blog gitalk
